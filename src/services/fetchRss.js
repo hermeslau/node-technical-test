@@ -49,7 +49,7 @@ function sort(rss, sortOrder){
     return rss.items.sort(function(a,b) {
         let d1 = new Date(a.pubDate)
         let d2 = new Date(b.pubDate)
-        if (sortOrder === 'acs'){
+        if (sortOrder === 'asc'){
             if (d1 < d2) return -1
             if (d1 > d2) return 1
         }
