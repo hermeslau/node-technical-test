@@ -61,4 +61,4 @@ function sort(rss, sortOrder){
     })
 }
 
-module.exports = {getEpisodes}
+module.exports = {getEpisodes, sort, displayFormatter, getRssFromURL}
