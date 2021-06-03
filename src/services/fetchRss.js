@@ -18,6 +18,11 @@ async function getEpisodes(numberOfEpisodes, sortOrder = null) {
     //If the rss return error, response the error to controller
     if (!rss.items) return rss
 
+    //If sorting is required
+    if (sortOrder){
+        sort(rss, sortOrder)
+    }
+
     return displayFormatter(rss, numberOfEpisodes)
 }
 
@@ -37,6 +42,23 @@ function displayFormatter(rss, numberOfEpisodes) {
     }
     result['episodes'] = episodes
     return result
+}
+
+//Sorting items array by date
+function sort(rss, sortOrder){
+    return rss.items.sort(function(a,b) {
+        let d1 = new Date(a.pubDate)
+        let d2 = new Date(b.pubDate)
+        if (sortOrder === 'acs'){
+            if (d1 < d2) return -1
+            if (d1 > d2) return 1
+        }
+        if (sortOrder === 'dsc'){
+            if (d1 > d2) return -1
+            if (d1 < d2) return 1
+        }
+        return 0
+    })
 }
 
 module.exports = {getEpisodes}

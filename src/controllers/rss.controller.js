@@ -8,5 +8,8 @@ exports.displayEpisodes = (req, res) => {
 }
 
 exports.getRssSort = (req, res) => {
-    res.send('sorted')
+    const sortOrder = req.query.order
+    fetchRss.getEpisodes(numberOfEpisodes, sortOrder).then(r => {
+        res.json(r)
+    })
 }
