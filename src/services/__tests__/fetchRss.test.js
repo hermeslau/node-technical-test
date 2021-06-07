@@ -82,7 +82,7 @@ describe('Data should ', () => {
     });
 
     it('sort ascending order', () => {
-        fetchRss.sort(mockData, "acs")
+        fetchRss.sort(mockData, "asc")
         expect(mockData.items[0].title).toBe("International Space Station");
     });
     
@@ -95,5 +95,10 @@ describe('Data should ', () => {
         let formattedData = fetchRss.displayFormatter(mockData, numberOfEpisodes)
         expect(formattedData.episodes.length).toBe(2);
     });
+
+    it('able to get the episode from nasa ', async () => {
+        let data = await fetchRss.getEpisodes()
+        expect(data.title).toMatch(expectedReturnData.validTitle);
+    })
 })
 

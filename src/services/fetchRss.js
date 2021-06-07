@@ -1,10 +1,10 @@
 const convertDate = require('../utilities/format-iso-date-to-AEST')
 const Parser = require('rss-parser');
 const parser = new Parser();
-const rssUrl = 'https://www.nasa.gov/rss/dyn/Houston-We-Have-a-Podcast.rss'
+const parameters = require('../utilities/parameters').parameters
 
 //Fetch RSS from URL
-async function getRssFromURL(url = rssUrl) {    
+async function getRssFromURL(url = parameters.NASA_RSS_URL) {    
     try {
         return await parser.parseURL(url)
     } catch (e) {        
@@ -13,8 +13,8 @@ async function getRssFromURL(url = rssUrl) {
     }
 }
 
-async function getEpisodes(numberOfEpisodes, sortOrder = null) {
-    let rss = await getRssFromURL();
+async function getEpisodes(sortOrder = null) {
+    let rss = await getRssFromURL()
     //If the rss return error, response the error to controller
     if (!rss.items) return rss
 
@@ -23,11 +23,11 @@ async function getEpisodes(numberOfEpisodes, sortOrder = null) {
         sort(rss, sortOrder)
     }
 
-    return displayFormatter(rss, numberOfEpisodes)
+    return displayFormatter(rss)
 }
 
 //Reformat the object to requested format
-function displayFormatter(rss, numberOfEpisodes) {    
+function displayFormatter(rss, numberOfEpisodes = parameters.NUMBER_OF_EPISODES) {   
     let result = {}
     let episodes = []
     result['title'] = rss?.title ?? ''
@@ -49,11 +49,11 @@ function sort(rss, sortOrder){
     return rss.items.sort(function(a,b) {
         let d1 = new Date(a.pubDate)
         let d2 = new Date(b.pubDate)
-        if (sortOrder === 'asc'){
+        if (sortOrder === parameters.ORDERING_ASCENDING){
             if (d1 < d2) return -1
             if (d1 > d2) return 1
         }
-        if (sortOrder === 'dsc'){
+        if (sortOrder === parameters.ORDERING_DESCENDING){
             if (d1 > d2) return -1
             if (d1 < d2) return 1
         }

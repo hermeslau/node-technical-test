@@ -1,15 +1,14 @@
 const fetchRss = require("../services/fetchRss")
-const numberOfEpisodes = 10
 
 exports.displayEpisodes = (req, res) => {
-    fetchRss.getEpisodes(numberOfEpisodes).then(r => {
+    fetchRss.getEpisodes().then(r => {
         res.json(r)
     })
 }
 
 exports.getRssSort = (req, res) => {
     const sortOrder = req.query.order
-    fetchRss.getEpisodes(numberOfEpisodes, sortOrder).then(r => {
+    fetchRss.getEpisodes(sortOrder).then(r => {
         res.json(r)
     })
 }
